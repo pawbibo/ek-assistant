@@ -1,0 +1,19 @@
+{
+  "name": "ek-assistant",
+  "version": "1.0.0",
+  "description": "A script that is used to automate very simple tasks during deployment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pawbibo/ek-assistant.git"
+  },
+  "author": "@pawbibo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pawbibo/ek-assistant/issues"
+  },
+  "homepage": "https://github.com/pawbibo/ek-assistant#readme"
+}
