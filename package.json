@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/pawbibo/ek-assistant/issues"
   },
-  "homepage": "https://github.com/pawbibo/ek-assistant#readme"
+  "homepage": "https://github.com/pawbibo/ek-assistant#readme",
+  "dependencies": {
+    "chalk": "^2.0.1",
+    "simple-git": "^1.75.0"
+  }
 }
