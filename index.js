@@ -1,7 +1,8 @@
 const RtmClient = require('@slack/client').RtmClient;
 const CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 const RTM_EVENTS = require('@slack/client').RTM_EVENTS;
-const get_diff = require('./get_diff');
+
+const ek = require('./controllers/ekController');
 
 require('dotenv').config({ path: 'variables.env' });
 
@@ -44,7 +45,7 @@ rtm.on(RTM_EVENTS.MESSAGE, function(message) {
               response += ', currently I support the following commands: jump';
               break;
             case "diff":
-              get_diff.get_diff('front').then(data => {
+              ek.fileDifference('front').then(data => {
                 response += data;
           rtm.sendMessage(response, message.channel);
               });
