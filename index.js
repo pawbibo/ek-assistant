@@ -3,6 +3,7 @@ const CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 const RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 
 const ek = require('./controllers/ekController');
+const hr = require('./controllers/hrController');
 
 require('dotenv').config({ path: 'variables.env' });
 
@@ -29,34 +30,41 @@ rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, function () {
 });
 
 rtm.on(RTM_EVENTS.MESSAGE, function(message) {
-  if (message.channel === channel) {
-    if (message.text !== null) {
-      var pieces = message.text.split(' ');
+  if (message.channel !== channel) {
+    return;
+  }
 
-      if (pieces.length > 1) {
-        if (pieces[0] === bot) {
-          var response = '<@' + message.user + '>';
+  if (message.text === null) {
+    return;
+  }
 
-          switch (pieces[1].toLowerCase()) {
-            case "jump":
-              response += '"Kris Kross will make you jump jump"';
-              break;
-            case "help":
-              response += ', currently I support the following commands: jump';
-              break;
-            case "diff":
-              ek.fileDifference('front').then(data => {
-                response += data;
-          rtm.sendMessage(response, message.channel);
-              });
-              break;
-            default:
-              response += ', sorry I do not understand the command "' + pieces[1] + '". For a list of supported commands, type: ' + bot + ' help';
-              break;
-          }
+  var pieces = message.text.split(' ');
 
-        }
+  if (pieces.length > 1) {
+    if (pieces[0] === bot) {
+      var response = '<@' + message.user + '>';
+
+      switch (pieces[1].toLowerCase()) {
+        case "payroll-announce":
+          hr.announcePayrollCutOff(pieces[2], pieces[3]).then(data => {
+            response += data;
+            sendMessage(response, message.channel);
+          });
+          break;
+        case "diff":
+          ek.fileDifference('front').then(data => {
+            response += data;
+            sendMessage(response, message.channel);
+          });
+          break;
+        default:
+          response += ', sorry I do not understand the command "' + pieces[1] + '". For a list of supported commands, type: ' + bot + ' help';
+          break;
       }
     }
   }
 });
+
+const sendMessage = (message, channel) => {
+  rtm.sendMessage(message, channel);
+};
